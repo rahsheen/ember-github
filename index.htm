@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Github Club</title>
+  <link rel='stylesheet' href='stylesheets/bootstrap.min.css' />
+  <link rel='stylesheet' href='stylesheets/bootstrap-theme.min.css' />
+  <link rel='stylesheet' href='stylesheets/overrides.css' />
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        <a class="navbar-brand" href="#">Github Club</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-root"></div>
+</body>
+
+</html>
+
+<div class="container" id="github-app"></div>
+
+<script type="text/x-handlebars" data-template-name="application">
+  <div class="row">
+    <div class="col-md-12">
+      {{outlet}}
+    </div>
+  </div>
+  </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="index">
+  <h1>Github Nameshub</h1>
+  <hr />
+  <p>This is the Github explorer for all of our favorite developers</p>
+  <ul>
+    {{#each}}
+    <li>{{#link-to 'user' this.login}}{{name}}{{/link-to}}</li>
+    {{/each}}
+  </ul>
+</script>
+
+<script type="text/x-handlebars" data-template-name="user">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="well">
+        <p class="text-center">
+          {{#link-to 'user' this}}<img {{bind-attr src=avatar_url}} style="width: 140px" />{{/link-to}}
+        </p>
+        <h4>{{#link-to 'user' this}}{{nam}}{{/link-to}}</h4>
+        <p>
+          {{company}}<br /> {{location}}
+          <br /> {{email}}
+          <br />
+        </p>
+        <hr />
+        <table class="table table-striped">
+          <tr>
+            <td>Followers:</td>
+            <td>{{followers}}</td>
+          </tr>
+          <tr>
+            <td>Repositories:</td>
+            <td>{{public_repos}}</td>
+          </tr>
+          <tr>
+            <td>Gists:</td>
+            <td>{{public_gists}}</td>
+          </tr>
+        </table>
+        <p>
+          {{#link-to "index"}}Back{{/link-to}}
+        </p>
+      </div>
+    </div>
+    <div class="col-md-8">
+      {{outlet}}
+    </div>
+  </div>
+</script>
+
+<script type="text/x-handlebars" id="user/index">
+  <h2>{{name}}'s Github</h2>
+  <ul>
+    <li>{{#link-to 'repositories' this}}Repositories{{/link-to}}</a>
+    </li>
+    <li><a href="#">News and Events</a></li>
+    <li><a href="#">Gists</a></li>
+  </ul>
+</script>
+
+<script type="text/x-handlebars" id="repositories">
+  <ol class="breadcrumb">
+    <li>{{#link-to 'index'}}Devs{{/link-to}}</li>
+    <li>{{#link-to 'user' user}}{{user.name}}{{/link-to}}</li>
+    <li><a class="active" href="#">Data</a></li>
+  </ol>
+
+  <table class="table table-striped">
+    {{#each}}
+    <tr>
+      <td>
+        <h4>{{#link-to 'repository' this}}{{name}}{{/link-to}}</h4>
+      </td>
+      <td>{{description}}</td>
+    </tr>
+    {{/each}}
+  </table>
+</script>
+
+<script type="text/x-handlebars" id="repository">
+  <ol class="breadcrumb">
+    <li>{{#link-to 'index'}}Devs{{/link-to}}</li>
+    <li>{{#link-to 'user' user}}{{user.name}}{{/link-to}}</li>
+    <li>{{#link-to 'repositories'}}Repositories{{/link-to}}</li>
+    <li><a class="active" href="#">{{name}}</a></li>
+  </ol>
+
+  <h1>{{name}} Repo</h1>
+  <p>{{description}}</p>
+  <ul>
+    <li>Language : {{language}}</li>
+    <li>Watchers : {{watchers}}</li>
+    <li>Open Issues : {{watchers}}</li>
+    <li>Clone : <b>{{clone_url}}</b></li>
+    <li>Web : <a {{bind-attr href=html_url}} targe=_blank>{{html_url}}</a></li>
+  </ul>
+  <hr />
+  <ul class="list-inline">
+    <li>{{#link-to 'issues'}}Issues{{/link-to}}</li>
+    <li>{{#link-to 'forks'}}Forks{{/link-to}}</li>
+    <li>{{#link-to 'commits'}}Commits{{/link-to}}</li>
+  </ul>
+  {{outlet}}
+</script>
+
+<script type="text/x-handlebars" id="issues">
+<h2>Issues</h2>
+</script>
+
+<script type="text/x-handlebars" id="forks">
+<h2>Forks</h2>
+</script>
+
+<script type="text/x-handlebars" id="commits">
+<h2>Commits</h2>
+</script>
+
+<script type="text/javascript" src="javascripts/vendor/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="javascripts/vendor/moment/moment.js"></script>
+<script type="text/javascript" src="javascripts/vendor/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="javascripts/vendor/ember/handlebars-1.1.2.js"></script>
+<script type="text/javascript" src="javascripts/vendor/ember/ember-1.4.0.js"></script>
+
+<script type="text/javascript">
+  var devs = [
+    { login: "rahsheen", name: "Rahsheen Porter" },
+    { login: "shanselman", name: "Scott Hanselman" },
+    { login: "tomdale", name: "Tom Dale" },
+    { login: "wycats", name: "Yehuda Katz" },
+    { login: "jonhalloway", name: "Jon Galloway" }
+  ];
+
+  window.Github = Ember.Application.create({
+    rootElement: "#github-app"
+  });
+
+  Github.Router.map(function () {
+    this.resource("user", { path: "/users/:login" }, function () {
+      this.resource("repositories");
+      this.resource("repository", { path: "repositories/:reponame"}, function () {
+        this.resource("issues");
+        this.resource("forks");
+        this.resource("commits");
+      });
+    });
+  });
+
+  Github.IndexRoute = Ember.Route.extend({
+    model: () => devs
+  });
+
+  Github.UserRoute = Ember.Route.extend({
+    model: function (params) {
+      return Ember.$.getJSON("https://api.github.com/users/" + params.login);
+    }
+  });
+
+  Github.UserIndexRoute = Ember.Route.extend({
+    model: function () {
+      return this.modelFor('user');
+    }
+  });
+
+  Github.RepositoriesRoute = Ember.Route.extend({
+    model: function () {
+      var user = this.modelFor('user');
+      return Ember.$.getJSON(user.repos_url);
+    }
+  });
+
+  Github.RepositoryRoute = Ember.Route.extend({
+    model: function () {
+      var user = this.modelFor("user");
+      //build the URL for the Repo call manually
+      var url = `https://api.github.com/repos/${user.login}/${params.reponame}`;
+      return Ember.$.getJSON(url);
+    }
+  });
+
+  Github.RepositoriesController = Ember.ArrayController.extend({
+    needs: ["user"],
+    user: Ember.computed.alias("controllers.user")
+  });
+
+  Github.RepositoryController = Ember.ObjectController.extend({
+    needs: ["user"],
+    user: Ember.computed.alias("controllers.user")
+  });
+
+</script>
